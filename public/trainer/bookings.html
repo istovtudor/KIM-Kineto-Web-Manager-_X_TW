@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezervari membri - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Rezervari membri</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div id="alert" class="alert hidden"></div>
+    <div class="card toolbar">
+      <label for="booking-date">Ziua:</label>
+      <input type="date" id="booking-date">
+      <button class="btn btn-primary" id="btn-load">Incarca</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Ora</th><th>Tip</th><th>Antrenor</th><th>Sedinta</th><th>Membru</th><th>Actiuni</th></tr>
+        </thead>
+        <tbody id="bookings-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/trainer-bookings.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rapoarte - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Rapoarte si statistici</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div id="alert" class="alert hidden"></div>
+
+    <div class="card">
+      <h2>Rezumat</h2>
+      <div class="grid" id="stats-grid"></div>
+    </div>
+
+    <div class="card">
+      <h2>Rezervari sedinte (zi / saptamana / luna)</h2>
+      <div class="grid" id="bookings-grid"></div>
+      <p class="text-muted" style="margin-top:.75rem;color:var(--muted);font-size:.9rem">
+        Numar de rezervari active la sedinte programate in perioada indicata.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Top antrenori / terapeuti</h2>
+      <table>
+        <thead><tr><th>Nume</th><th>Numar sedinte</th></tr></thead>
+        <tbody id="trainers-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Statistici abonamente</h2>
+      <div class="grid" id="subs-summary-grid"></div>
+      <table style="margin-top:1rem">
+        <thead><tr><th>Tip abonament</th><th>Active</th></tr></thead>
+        <tbody id="subs-type-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Diagrame (PNG / WebP)</h2>
+      <button class="btn btn-primary" id="btn-charts">Genereaza toate graficele</button>
+      <div id="charts"></div>
+    </div>
+
+    <div class="card">
+      <h2>Export date (CSV / XML)</h2>
+      <h3 style="margin:.75rem 0 .5rem;font-size:1rem">Rezumat complet</h3>
+      <a class="btn" id="export-summary-csv" href="#">Rezumat CSV</a>
+      <a class="btn" id="export-summary-xml" href="#">Rezumat XML</a>
+
+      <h3 style="margin:1rem 0 .5rem;font-size:1rem">Utilizatori activi</h3>
+      <a class="btn" id="export-users-csv" href="#">Utilizatori CSV</a>
+      <a class="btn" id="export-users-xml" href="#">Utilizatori XML</a>
+
+      <h3 style="margin:1rem 0 .5rem;font-size:1rem">Rezervari sedinte</h3>
+      <a class="btn" id="export-bookings-csv" href="#">Rezervari CSV</a>
+      <a class="btn" id="export-bookings-xml" href="#">Rezervari XML</a>
+
+      <h3 style="margin:1rem 0 .5rem;font-size:1rem">Top antrenori</h3>
+      <a class="btn" id="export-trainers-csv" href="#">Antrenori CSV</a>
+      <a class="btn" id="export-trainers-xml" href="#">Antrenori XML</a>
+
+      <h3 style="margin:1rem 0 .5rem;font-size:1rem">Abonamente</h3>
+      <a class="btn" id="export-subscriptions-csv" href="#">Abonamente CSV</a>
+      <a class="btn" id="export-subscriptions-xml" href="#">Abonamente XML</a>
+
+      <h3 style="margin:1rem 0 .5rem;font-size:1rem">Lista sedinte</h3>
+      <a class="btn" id="export-sessions-csv" href="#">Sedinte CSV</a>
+      <a class="btn" id="export-sessions-xml" href="#">Sedinte XML</a>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/reports.js"></script>
+</body>
+</html>

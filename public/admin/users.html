@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Utilizatori - KIM Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Administrare utilizatori</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div id="alert" class="alert hidden"></div>
+    <div class="card">
+      <p class="interval-meta">Bifeaza utilizatorii care trebuie sa aiba rol de antrenor. Administratorii nu pot fi modificati.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Nume</th>
+            <th>Prenume</th>
+            <th>Email</th>
+            <th>Trainer</th>
+          </tr>
+        </thead>
+        <tbody id="users-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/admin-users.js"></script>
+</body>
+</html>

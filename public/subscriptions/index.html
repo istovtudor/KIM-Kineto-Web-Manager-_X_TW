@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abonamente - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Abonamente</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div id="alert" class="alert hidden"></div>
+    <div class="card">
+      <h2>Abonamentul tau</h2>
+      <p>Sedinte ramase (total): <strong id="active-sessions-remaining">-</strong></p>
+      <p>Tipuri permise: <strong id="active-types-list">-</strong></p>
+      <p class="interval-meta">Poti combina abonamente (ex: Basic + Kineto Pack).</p>
+    </div>
+    <div class="card">
+      <h2>Tipuri abonament</h2>
+      <div class="grid" id="types-grid"></div>
+      <div id="admin-types" class="hidden">
+        <hr style="margin:1rem 0">
+        <h3>Administrare tipuri (admin)</h3>
+        <form id="type-form">
+          <div class="grid">
+            <div class="form-group"><label>Nume</label><input id="type_name" required></div>
+            <div class="form-group"><label>Pret (RON)</label><input type="number" id="type_price" step="0.01" required></div>
+            <div class="form-group"><label>Zile</label><input type="number" id="type_days" value="30"></div>
+            <div class="form-group"><label>Sedinte incluse</label><input type="number" id="type_sessions" value="4" min="1"></div>
+          </div>
+          <div class="form-group"><label>Descriere</label><textarea id="type_desc"></textarea></div>
+          <button type="submit" class="btn btn-primary">Adauga tip</button>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Istoricul meu</h2>
+      <table>
+        <thead><tr><th>Tip</th><th>Status</th><th>Sedinte ramase</th><th>Start</th><th>Sfarsit</th><th>Pret</th></tr></thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/subscriptions.js"></script>
+</body>
+</html>

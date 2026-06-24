@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resurse - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Resurse</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="tabs" id="entity-tabs">
+      <button class="active" data-entity="trainers">Antrenori</button>
+      <button data-entity="rooms">Sali</button>
+      <button data-entity="equipment">Echipamente</button>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn btn-primary hidden" id="addRoomBtn">Adauga sala</button>
+      <button type="button" class="btn btn-primary hidden" id="addEquipmentBtn">Adauga echipament</button>
+    </div>
+    <div id="alert" class="alert hidden"></div>
+    <div class="card hidden" id="room-form-card">
+      <h2>Adauga sala</h2>
+      <form id="room-form">
+        <div class="form-group">
+          <label for="room-name">Nume</label>
+          <input id="room-name" required>
+        </div>
+        <div class="form-group">
+          <label for="room-capacity">Capacitate</label>
+          <input type="number" id="room-capacity" min="1" value="10" required>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="room-available" checked>
+            Disponibila
+          </label>
+        </div>
+        <button type="submit" class="btn btn-success">Salveaza sala</button>
+        <button type="button" class="btn" id="room-form-cancel">Anuleaza</button>
+      </form>
+    </div>
+    <div class="card hidden" id="equipment-form-card">
+      <h2>Adauga echipament</h2>
+      <form id="equipment-form">
+        <div class="form-group">
+          <label for="equipment-name">Nume</label>
+          <input id="equipment-name" required>
+        </div>
+        <div class="form-group">
+          <label for="equipment-status">Stare</label>
+          <select id="equipment-status" required>
+            <option value="bun">Bun</option>
+            <option value="defect">Defect</option>
+            <option value="mentenanta">In mentenanta</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="equipment-room">Sala asociata</label>
+          <select id="equipment-room">
+            <option value="">— Fara sala —</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success">Salveaza echipament</button>
+        <button type="button" class="btn" id="equipment-form-cancel">Anuleaza</button>
+      </form>
+    </div>
+    <div class="card">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/resources.js"></script>
+</body>
+</html>

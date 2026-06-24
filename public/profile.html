@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil - KIM</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h2>Profil utilizator</h2>
+      <div id="alert" class="alert hidden"></div>
+      <form id="profile-form">
+        <div class="form-group">
+          <label>Nume complet</label>
+          <input type="text" id="full_name" required>
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" id="phone">
+        </div>
+        <div class="form-group">
+          <label>Bio</label>
+          <textarea id="bio" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Salveaza</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Istoric activitate</h2>
+      <table>
+        <thead><tr><th>Actiune</th><th>Detalii</th><th>Data</th></tr></thead>
+        <tbody id="activity-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="js/api.js"></script>
+  <script>
+    (async () => {
+      const user = await requireAuth();
+      if (!user) return;
+      renderNav({ role: user.role }, kimUrl('/public/profile.html'));
+      document.getElementById('full_name').value = user.full_name || '';
+      document.getElementById('phone').value = user.phone || '';
+      document.getElementById('bio').value = user.bio || '';
+
+      const act = await KimApi.user.activity();
+      document.getElementById('activity-body').innerHTML = (act.activity || []).map(a =>
+        `<tr><td>${escapeHtml(formatActivityLabel(a))}</td><td>${escapeHtml(a.details || '-')}</td><td>${escapeHtml(a.created_at)}</td></tr>`
+      ).join('');
+
+      document.getElementById('profile-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertEl = document.getElementById('alert');
+        const data = await KimApi.user.profile({
+          full_name: document.getElementById('full_name').value,
+          phone: document.getElementById('phone').value,
+          bio: document.getElementById('bio').value,
+        });
+        showAlert(alertEl, data.success ? 'Profil actualizat' : (data.error || 'Eroare'), data.success ? 'success' : 'error');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - KIM</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Kineto Web Manager</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h2>Bun venit, <span id="user-name">...</span></h2>
+      <p>Rol: <span id="user-role" class="badge"></span></p>
+      <p id="member-sessions-line" class="hidden">
+        Sedinte Fitness+Forță ramase: <strong id="dashboard-sessions-fitness">-</strong><br>
+        Sedinte Kineto ramase: <strong id="dashboard-sessions-kineto">-</strong>
+      </p>
+      <p id="trainer-intervals-line" class="hidden">
+        <a class="btn btn-primary" id="link-trainer-intervals" href="#">Gestioneaza intervale orare</a>
+        <a class="btn btn-primary" id="link-trainer-bookings" href="#" style="margin-left:0.5rem">Vezi rezervari membri</a>
+      </p>
+    </div>
+    <div class="grid" id="stats-grid"></div>
+    <div class="card">
+      <h2>Activitate recenta</h2>
+      <table>
+        <thead><tr><th>Actiune</th><th>Detalii</th><th>Data</th></tr></thead>
+        <tbody id="activity-body"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="js/api.js"></script>
+  <script>
+    (async () => {
+      const user = await requireAuth();
+      if (!user) return;
+      renderNav(user, kimUrl('/public/index.html'));
+      document.getElementById('user-name').textContent = user.full_name || user.email;
+      document.getElementById('user-role').textContent = user.role;
+
+      if (['trainer', 'admin'].includes(user.role)) {
+        const link = document.getElementById('link-trainer-intervals');
+        const linkBookings = document.getElementById('link-trainer-bookings');
+        document.getElementById('trainer-intervals-line').classList.remove('hidden');
+        link.href = kimUrl('/public/trainer/intervals.html');
+        linkBookings.href = kimUrl('/public/trainer/bookings.html');
+      }
+
+      const act = await KimApi.user.activity();
+      const tbody = document.getElementById('activity-body');
+      tbody.innerHTML = (act.activity || []).slice(0, 10).map(a =>
+        `<tr><td>${escapeHtml(formatActivityLabel(a))}</td><td>${escapeHtml(a.details || '-')}</td><td>${escapeHtml(a.created_at)}</td></tr>`
+      ).join('') || '<tr><td colspan="3">Nicio activitate</td></tr>';
+
+      if (['admin', 'trainer'].includes(user.role)) {
+        const dash = await KimApi.report.dashboard();
+        if (dash.success) {
+          document.getElementById('stats-grid').innerHTML = `
+            <div class="card stat-card"><div class="value">${dash.active_users}</div><div class="label">Utilizatori activi</div></div>
+            <div class="card stat-card"><div class="value">${dash.sessions_day}</div><div class="label">Sedinte azi</div></div>
+            <div class="card stat-card"><div class="value">${dash.sessions_week}</div><div class="label">Sedinte saptamana</div></div>
+            <div class="card stat-card"><div class="value">${dash.subscription_stats.active}</div><div class="label">Abonamente active</div></div>`;
+        }
+      } else {
+        const rem = await KimApi.subscription.getRemaining();
+        document.getElementById('member-sessions-line').classList.remove('hidden');
+        document.getElementById('dashboard-sessions-fitness').textContent =
+          rem.success ? (rem.fitness_forta ?? 0) : 0;
+        document.getElementById('dashboard-sessions-kineto').textContent =
+          rem.success ? (rem.kineto ?? 0) : 0;
+
+        const hist = await KimApi.subscription.history();
+        const active = (hist.subscriptions || []).filter(s => s.status === 'active');
+        document.getElementById('stats-grid').innerHTML = `
+          <div class="card stat-card"><div class="value">${rem.fitness_forta ?? 0}</div><div class="label">Fitness+Forta ramase</div></div>
+          <div class="card stat-card"><div class="value">${rem.kineto ?? 0}</div><div class="label">Kineto ramase</div></div>
+          <div class="card stat-card"><div class="value">${active.length}</div><div class="label">Abonamente active</div></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Program - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="inner">
+      <h1>KIM - Program</h1>
+      <nav class="main-nav" id="main-nav"></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card hidden" id="subscription-banner">
+      <p><strong>Fitness+Forta:</strong> <span id="sessions-remaining-fitness">-</span> | <strong>Kineto:</strong> <span id="sessions-remaining-kineto">-</span></p>
+      <p class="interval-meta">Tipuri permise: <span id="allowed-types-text">-</span></p>
+    </div>
+    <div class="card" id="slot-legend">
+      <p class="interval-meta">
+        <span class="slot-item slot-free" style="display:inline-block;padding:0.2rem 0.5rem">Verde = liber</span>
+        <span class="slot-item slot-occupied" style="display:inline-block;padding:0.2rem 0.5rem">Rosu = ocupat</span>
+        <span class="slot-item slot-mine" style="display:inline-block;padding:0.2rem 0.5rem">Galben = rezervat de mine</span>
+      </p>
+    </div>
+    <div class="toolbar">
+      <select id="filter-type">
+        <option value="">Toate tipurile</option>
+        <option value="fitness">Fitness</option>
+        <option value="forta">Forta</option>
+        <option value="kineto">Kineto</option>
+      </select>
+      <button class="btn btn-primary" id="btn-refresh">Reincarca</button>
+      <button class="btn btn-success hidden" id="btn-new">Sedinta noua</button>
+      <a class="btn btn-primary hidden" id="btn-intervals" href="#">Intervale orare</a>
+      <a class="btn btn-primary hidden" id="btn-bookings" href="#">Rezervari membri</a>
+    </div>
+    <div id="alert" class="alert hidden"></div>
+    <div class="card" id="intervals-section">
+      <h2>Program pe intervale (saptamana curenta)</h2>
+      <p id="intervals-message" class="interval-meta hidden"></p>
+      <div id="intervals-container"></div>
+    </div>
+    <div class="card">
+      <h2>Sedinte programate (lista clasica)</h2>
+      <table>
+        <thead id="sessions-table-head">
+          <tr><th>Titlu</th><th>Tip</th><th>Antrenor</th><th>Sala</th><th>Start</th><th>Locuri</th><th>Actiuni</th></tr>
+        </thead>
+        <tbody id="sessions-body"></tbody>
+      </table>
+    </div>
+    <div class="card hidden" id="form-card">
+      <h2 id="form-title">Sedinta noua</h2>
+      <form id="session-form">
+        <input type="hidden" id="session-id">
+        <div class="grid">
+          <div class="form-group"><label>Titlu</label><input id="title" required></div>
+          <div class="form-group">
+            <label>Tip</label>
+            <select id="type" required>
+              <option value="fitness">Fitness</option>
+              <option value="forta">Forta</option>
+              <option value="kineto">Kineto</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Antrenor</label><select id="trainer_id" required></select></div>
+          <div class="form-group"><label>Sala</label><select id="room_id" required></select></div>
+          <div class="form-group"><label>Start</label><input type="datetime-local" id="start_time" required></div>
+          <div class="form-group"><label>Sfarsit</label><input type="datetime-local" id="end_time" required></div>
+          <div class="form-group"><label>Max participanti</label><input type="number" id="max_participants" value="10" min="1"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Salveaza</button>
+        <button type="button" class="btn" id="btn-cancel-form">Anuleaza</button>
+      </form>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/schedule.js"></script>
+</body>
+</html>

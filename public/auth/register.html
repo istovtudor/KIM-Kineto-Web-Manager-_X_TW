@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inregistrare - KIM</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-box">
+    <h1>KIM - Inregistrare</h1>
+    <div id="alert" class="alert hidden"></div>
+    <form id="register-form">
+      <div class="form-group">
+        <label for="full_name">Nume complet</label>
+        <input type="text" id="full_name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefon</label>
+        <input type="tel" id="phone">
+      </div>
+      <div class="form-group">
+        <label for="password">Parola (min. 6 caractere)</label>
+        <input type="password" id="password" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Creeaza cont</button>
+    </form>
+    <p style="text-align:center;margin-top:1rem;font-size:.9rem">
+      Ai deja cont? <a href="login.html">Login</a>
+    </p>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>
