@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specificarea Cerințelor Software (SRS) - Gym & Kineto Management</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5;
+            color: #111;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+        article {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 24pt;
+            margin-bottom: 5px;
+        }
+        h2 {
+            font-size: 16pt;
+            color: #2c3e50;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 13pt;
+            color: #34495e;
+            margin-top: 20px;
+        }
+        .authors {
+            margin: 15px 0;
+            font-size: 11pt;
+            line-height: 1.3;
+        }
+        .institution {
+            font-style: italic;
+            color: #555;
+        }
+        p, li {
+            font-size: 11pt;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+        th, td {
+            border: 1px solid #666;
+            padding: 9px;
+            font-size: 10.5pt;
+        }
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        .code-structure {
+            background-color: #f9f9f9;
+            border-left: 3px solid #7f8c8d;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10pt;
+            white-space: pre-wrap;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<article>
+    <header>
+        <h1>Specificarea Cerințelor Software (SRS)</h1>
+        <p style="font-size: 14pt; font-weight: bold; margin: 5px 0;">Sistem de Gestiune și Rezervări Gym & Kineto</p>
+        <div class="authors">
+            <strong>Autori:</strong> Istov Tudor-George & Fechet Denis-Eduard<br>
+            <span class="institution">Universitatea „Alexandru Ioan Cuza” Iași, Facultatea de Informatică</span><br>
+            <strong>Curs:</strong> Dezvoltarea Aplicațiilor Web (ProiectWEB) | <strong>Data:</strong> Iunie 2026
+        </div>
+    </header>
+
+    <section id="introducere">
+        <h2>1. Introducere</h2>
+        <h3>1.1 Scopul documentului</h3>
+        <p>Prezentul raport tehnic stabilește specificațiile arhitecturale, funcționale și structurale pentru platforma web de gestiune Gym & Kineto. Structura documentului respectă bunele practici din ingineria software descrise în standardul <strong>IEEE SRS (System Requirements Specification)</strong>, transpus într-un format web semantic bazat pe specificațiile <strong>Scholarly HTML</strong>.</p>
+
+        <h3>1.2 Scopul produsului (Product Scope)</h3>
+        <p>Aplicația este o soluție digitală ce optimizează fluxul operațional dintr-un centru sportiv sau o clinică de recuperare. Obiectivul central este corelarea resurselor logistice (săli, aparate), a resurselor umane (antrenori, kinetoterapeuți) și a programărilor efectuate de clienți în funcție de pachetele lor active.</p>
+
+        <h3>1.3 Definiții și Acronime</h3>
+        <ul>
+            <li><strong>SRS:</strong> System Requirements Specification.</li>
+            <li><strong>REST API:</strong> Application Programming Interface bazat pe arhitectura REST, utilizând JSON.</li>
+            <li><strong>GD:</strong> Graphics Draw (bibliotecă PHP utilizată pe server pentru generarea de grafice statistice în mod nativ).</li>
+            <li><strong>RBAC:</strong> Role-Based Access Control (Controlul accesului bazat pe roluri).</li>
+        </ul>
+    </section>
+
+    <section id="descriere-generala">
+        <h2>2. Descriere Generală</h2>
+        <h3>2.1 Perspectiva Produsului</h3>
+        <p>Sistemul adoptă o arhitectură decuplată. Serverul (Back-end) este scris în PHP nativ și funcționează exclusiv ca un API asincron care procesează datele din baza de date și livrează răspunsuri formatate JSON. Interfața (Front-end) este alcătuită din resurse statice (HTML5, CSS3) animate prin JavaScript asincron (<code>Fetch API</code>).</p>
+
+        <h3>2.2 Clase de Utilizatori și Matricea de Drepturi</h3>
+        <p>Accesul la acțiuni și date este guvernat strict prin verificarea sesiunii securizate la nivel de server:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rol Utilizator</th>
+                    <th>Funcționalități și Permisiuni în Back-end</th>
+                    <th>Directoare Front-end Asociate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Member (Membru)</strong></td>
+                    <td>Înregistrare, logare, vizualizare orar, rezervare ședințe pe bază de abonament activ, gestionare profil personal.</td>
+                    <td><code>/auth/</code>, <code>/schedule/</code>, <code>/subscriptions/</code>, <code>profile.html</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Trainer (Antrenor)</strong></td>
+                    <td>Toate drepturile de membru, configurarea propriei matrici de disponibilitate, vizualizarea agendei de clienți, modificarea sau anularea ședințelor programate de el.</td>
+                    <td><code>/trainer/</code>, <code>/schedule/</code>, <code>index.html</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Admin (Administrator)</strong></td>
+                    <td>Managementul conturilor (alocare rol de antrenor), configurarea resurselor logistice (săli, echipamente), vizualizarea rapoartelor statistice complexe, export brut de date.</td>
+                    <td><code>/admin/</code>, <code>/reports/</code>, <code>/resources/</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="arhitectura-tehnica">
+        <h2>3. Arhitectura Sistemului și Structura de Directoare</h2>
+        <p>Pentru a asigura paralelismul muncii în cadrul echipei de doi programatori, proiectul a fost organizat modular, separând complet fișierele de interfață de scripturile care rulează pe server.</p>
+
+        <h3>3.1 Organizarea Modulelor Front-end</h3>
+        <p>Structura folderului <code>public/</code> reflectă direct imaginea de organizare a interfeței grafice:</p>
+        <div class="code-structure">
+public/
+├── auth/            # Interfețele de Login și Înregistrare (punct de start)
+├── admin/           # Panoul de control pentru managementul utilizatorilor
+├── schedule/        # Interfața de calendar și rezervare a ședințelor
+├── subscriptions/   # Vizualizarea și activarea pachetelor de fitness/kineto
+├── trainer/         # Panoul dedicat antrenorilor pentru stabilirea orarului
+├── reports/         # Vizualizarea statisticilor dinamice și a fișierelor descărcabile
+├── resources/       # Managementul logisticii fizice (săli și aparate)
+├── css/             # Stilurile globale aplicate paginilor din aplicație
+└── js/              # Logica de script pentru apelurile asincrone către API
+        </div>
+
+        <h3>3.2 Corelarea cu Scripturile Core Back-end</h3>
+        <p>Paginile statice din directoarele menționate mai sus trimit cereri de date către fișierele PHP de procesare aflate la nivelul de bază al serverului:</p>
+        <ul>
+            <li><code>router.php</code> și <code>index.php</code>: Gestionează maparea URL-urilor, setarea MIME-type-urilor corecte (pentru CSS/JS) și redirecționarea utilizatorilor neautentificați.</li>
+            <li><code>user.php</code> și <code>admin_users.php</code>: Controlează fluxurile de autentificare (<code>login</code>/<code>register</code>) și modificarea drepturilor utilizatorilor.</li>
+            <li><code>schedule.php</code> și <code>trainer_schedule.php</code>: Gestionează logica orarului și a rezervărilor active.</li>
+            <li><code>subscription.php</code>: Controlează starea abonamentelor și decrementarea automată a ședințelor.</li>
+            <li><code>report.php</code>: Motorul analitic care prelucrează statisticile globale.</li>
+        </ul>
+    </section>
+
+    <section id="cerinte-functionale">
+        <h2>4. Cerințe Funcționale și Reguli de Business</h2>
+        
+        <h3>4.1 Gestiunea Rezervărilor și Evitarea Conflictelor (schedule.php)</h3>
+        <p>Aplicația validează fiecare acțiune pentru a asigura consistența datelor: la salvarea unei ședințe, se apelează metoda <code>hasConflict</code>. Dacă sala sau antrenorul sunt ocupați în acel interval, tranzacția este anulată și se returnează <code>HTTP 409 Conflict</code>. Membrii sunt limitați la o singură rezervare pe zi prin verificarea <code>hasBookingOnSameDay</code>.</p>
+
+        <h3>4.2 Consumul Atomic al Abonamentelor (subscription.php)</h3>
+        <p>Ședințele sunt mapate pe categorii (fitness, forta, kineto). Când un membru face o rezervare, funcția <code>findSubscriptionForBooking</code> caută un pachet valid. Dacă este găsit, numărul de ședințe rămase este decrementat atomic în baza de date pentru a preveni utilizarea frauduloasă.</p>
+
+        <h3>4.3 Modulul de Statistică și Export (report.php)</h3>
+        <p>Pentru administratori, serverul compilează datele și folosește biblioteca nativă <code>GD</code> pentru a desena grafice de tip histogramă salvate ca imagini <code>PNG</code>/<code>WebP</code>. De asemenea, modulul permite exportul datelor agregate în fișiere brute de tip <code>CSV</code> sau structuri ierarhice <code>XML</code>.</p>
+    </section>
+
+    <section id="cerinte-non-functionale">
+        <h2>5. Cerințe Non-Funcționale și Securitate</h2>
+        <h3>5.1 Autentificare și RBAC</h3>
+        <p>Parolele sunt securizate exclusiv prin hashing criptografic (<code>password_hash</code>). Sesiunile sunt inițializate în condiții de siguranță (<code>startSecureSession</code>). Fiecare endpoint back-end verifică permisiunile prin funcția de barieră <code>requireRole()</code>, returnând <code>HTTP 403 Forbidden</code> în caz de acces neautorizat.</p>
+
+        <h3>5.2 Siguranța Datelor și CORS</h3>
+        <p>Toate interogările SQL folosesc tehnica declarațiilor pregătite (PDO) pentru a elimina riscul atacurilor de tip SQL Injection. Pentru a asigura flexibilitatea interconectării componentelor, headerele HTTP includ directive CORS complete (<code>Access-Control-Allow-Origin: *</code>).</p>
+    </section>
+</article>
+
+</body>
+</html>
