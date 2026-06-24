@@ -62,8 +62,8 @@
     return `
       <div style="margin-top:1.25rem">
         <h3 style="font-size:1rem;margin-bottom:.5rem">${escapeHtml(title)}</h3>
-        <img class="chart-img" src="${kimUrl(paths.png)}?t=${ts}" alt="${escapeHtml(title)} PNG">
-        <img class="chart-img" src="${kimUrl(paths.webp)}?t=${ts}" alt="${escapeHtml(title)} WebP">
+        <img class="chart-img" src="${assetUrl(paths.png)}?t=${ts}" alt="${escapeHtml(title)} PNG">
+        <img class="chart-img" src="${assetUrl(paths.webp)}?t=${ts}" alt="${escapeHtml(title)} WebP">
       </div>`;
   }
 
@@ -85,8 +85,14 @@
       renderChartBlock('Rezervari sedinte (zi / sapt / luna)', data.bookings) +
       renderChartBlock('Abonamente active pe tip', data.subscriptions);
 
-    if (!data.trainers?.png && !data.bookings?.png && !data.subscriptions?.png) {
-      showAlert(document.getElementById('alert'), 'Extensia GD nu este disponibila pe server pentru generare imagini.', 'error');
+    if (!data.trainers?.generated && !data.bookings?.generated && !data.subscriptions?.generated) {
+      showAlert(
+        document.getElementById('alert'),
+        data.trainers?.gd_available === false
+          ? 'Extensia GD nu este activa in PHP. Activati extension=gd in php.ini.'
+          : 'Diagramele nu au putut fi generate pe server.',
+        'error'
+      );
     }
   };
 })();

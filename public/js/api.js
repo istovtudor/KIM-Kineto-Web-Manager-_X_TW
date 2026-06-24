@@ -39,6 +39,29 @@ function kimUrl(path) {
   return `${KIM_BASE}${normalized}`;
 }
 
+/**
+ * URL pentru resurse statice (imagini, diagrame).
+ * Accepta cale app-relative (/public/reports/charts/x.png) si evita dublarea KIM_BASE.
+ */
+function assetUrl(path) {
+  if (!path) return '';
+  const raw = String(path).replace(/\\/g, '/');
+  if (/^https?:\/\//i.test(raw)) return raw;
+
+  let normalized = raw.startsWith('/') ? raw : `/${raw}`;
+  const base = (KIM_BASE || '').replace(/\/$/, '');
+
+  if (base) {
+    const basePrefix = `${base}/`;
+    while (normalized.startsWith(basePrefix)) {
+      normalized = normalized.slice(base.length);
+      if (!normalized.startsWith('/')) normalized = `/${normalized}`;
+    }
+  }
+
+  return `${base}${normalized}`;
+}
+
 const KimApi = {
   async request(service, action, options = {}) {
     const params = new URLSearchParams({ action, ...(options.params || {}) });
